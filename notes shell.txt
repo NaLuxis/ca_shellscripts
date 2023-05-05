@@ -1,0 +1,209 @@
+BASE
+
+Avant chaque scrip on met #!/bin/bash
+# commentaire
+echo ça print
+pas oublier .sh
+
+Truc cool à savoir faut être dans le dossier où se trouve le fichier pour en faire quelque chose
+
+Commande à faire :
+- wich bash : pour savoir le chemin d'accès
+- chmod +x nom du fichier : rendre exécutable le fichier
+- ls -l nom du fichier : voir les droit du fichier
+- pour exécuter le script : ./ nom du fichier ou bash nom du fichier
+
+_______________________________
+
+VARIABLE
+
+case sensitive
+peut contenir : a number, a character or a string of characters
+combinaison de lettres et underscore "_"
+on assigne la valeur avec "="
+0 espace toléré
+\ sert à échaper à la signification des character spéciaux ????
+${} sert a mettre des VARIABLE
+"       " les espaces sont garder là
+`` pour mettre des commandes
+$() pour mettre des commandes
+
+_______________________________
+
+ARGUMENT
+
+on peut passer des argument au lancement du script
+$1 fait référence au 1er argument
+$2 fait référence au 2ème argument et ainsi de suite
+$0 c'est le nom du fichier
+$# c'est le nombre d'argument que j'ai mis
+$@ contien une chaîne de characters des tous les arguments avec espaces
+
+Exemple de commande : ./fruits.sh pomme poire "j'aime" raisin 5 banane cerise 10
+Il y a 7 arguments
+
+_______________________________
+
+ARRAY
+
+Se fait entre () et espace entre les valeurs avec ou sans "" dans le cas d'un mot en une partie
+${#arrayname[@]} permet d'avoir la longueur de l'array
+${my_array[3]} sert a récupérer la valeur
+${#my_array[@]}  sert a récupéré la longueur de l'array
+my_array[4]="carrot" pour ajouter un élément
+${my_array[${#my_array[@]}-1]} le -1 c'est parce que la longueur et de 5 par ex mais l'index max ce sera 4 (on commence a 0 et pas 1)
+
+_______________________________
+
+BASIC OPERATOR
+
+utilisable dans $(())
++ additon
+- soustraction
+* multiplication
+/ division
+% modulo : le reste d'une division
+** exponentiel (a puissance b)
+
+_______________________________
+
+BASIC SRTING OPERATIONS
+
+${#STRING} avoir la longueur
+possibilité de recherche un index de character dans une strings par raport a une autre (voir ex)
+possibilité d'extraire des character d'une string (voir ex)
+possibilité de remplacer un mots une ou plusieur fois / le supprimer
+possibilité de remplacer plusieurs mots au début ou fin de string
+possibilité de modifier avec des commandes
+
+_______________________________
+
+DECISION MAKING
+
+condition exenples : if then fi, if then else fi, if then elif then else fi
+
+opérateur logique :
+- ! négation
+- && et
+- || ou
+Entouré de [[ ]]
+
+_______________________________
+
+LOOPS
+
+boucle simplement
+juste break et continue en plus
+
+_______________________________
+
+SHELL FUNCTIONS
+
+$1 pour 1er paramètre
+$2 pour 2ème paramètre etc
+
+_______________________________
+
+SPECIAL VARIABLE
+
+$0 - The filename of the current script.
+$n - The Nth argument passed to script was invoked or function was called.
+$# - The number of argument passed to script or function.
+$@ - All arguments passed to script or function.
+$* - All arguments passed to script or function.
+$? - The exit status of the last command executed.
+$$ - The process ID of the current shell. For shell scripts, this is the process ID under which they are executing.
+$! - The process number of the last background command.
+$@ and $* have different behavior when they were enclosed in double quotes.
+
+_______________________________
+
+BASH TRAP COMMAND
+
+la commande : trap, sert a catch des signaux/interruption/utilisateur spéciaux pous évité les event imprévisibles
+
+3 signe commun :
+- SIGINT: user sends an interrupt signal (Ctrl + C)
+- SIGQUIT: user sends a quit signal (Ctrl + D)
+- SIGFPE: attempted an illegal mathematical operation
+
+Tout les signal avec : kill -l
+
+je peut utiliser les nombrea la place : 2 corresponds to SIGINT and 15 corresponds to SIGTERM
+
+_______________________________
+
+FILE TESTING
+
+Souvent on veut faire des tests de fichiers sur le système de fichiers qu'on utilise
+Exemple de template de commande :
+- 1. -<command> [filename]
+- 2. [filename1] -<command> [filename2]
+
+use "-e" to test if file exist
+use "-d" to test if directory exists
+use "-r" to test if file has read permission for the user running the script/test
+
+
+_______________________________
+
+PIPELINES
+
+Représenté par : | ça sert a connecter l'outpout d'une commande à l'input d'une autre
+command1 | command2
+
+Par defaut ça redirige que la sortie standart, pour l'erreur standart il faut le formulaire qui est un raccourcis pour -> |&2>&1 | ???? pas tout compris là
+
+Imagine you quickly want to know the number of entries in a directory, you can use a pipe to redirect the output of the ls command to the wc command with option -l.
+ls / | wc -l
+
+Then you want to see only the first 10 results
+ls / | head
+Note: head outputs the first 10 lines by default, use option -n to change this behavior
+
+Grep searches for patterns in each file. Patterns is one or more patterns separated by newline characters, and grep prints each line that matches a pattern. Typically patterns should be quoted when grep is used in a shell command.
+ls / | grep  # This will grab any line/file that has a matching pattern in it
+
+Exemple pour connaitre nombre processeur baser sur les info du fichier /proc/cpuinfo
+cat /proc/cpuinfo | grep processor | wc -l
+
+_______________________________
+
+PROCESS SUBSTITUTION
+
+Sert a faire référence à la sortie d'un processus avec le nom d'un fichier
+A 2 forme :
+- input < (cmd)
+- outpout > (cmd)
+
+OUTPUT
+Exemple pour comparer 2 fichier (diff peut faire des faux positif si pas ordoné)
+#sans PROCESS SUBSTITUTION
+sort file1 > sorted_file1
+sort file2 > sorted_file2
+diff sorted_file1 sorted_file2
+ #avec PROCESS SUBSTITUTION
+ diff <(sort file1) <(sort file2)
+
+INPUT
+Exemple pour stocker les log dans un fichier et en même temps l'afficher sur la console
+#sans PROCESS SUBSTITUTION
+echo "Hello, world!" | tee /tmp/hello.txt
+ #avec PROCESS SUBSTITUTION
+echo "Hello, world!" | tee >(tr '[:upper:]' '[:lower:]' > /tmp/hello.txt)
+
+_______________________________
+
+Les exo :
+- Input Parameter Parsing
+- Regular Expressions
+- Special Commands sed,awk,grep,sort
+existent pas encore. Tristesse
+
+
+
+
+
+
+
+
