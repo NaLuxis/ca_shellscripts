@@ -22,7 +22,7 @@ peut contenir : a number, a character or a string of characters
 combinaison de lettres et underscore "_"
 on assigne la valeur avec "="
 0 espace toléré
-\ sert à échaper à la signification des character spéciaux ????
+\ sert à échaper à la signification des character spéciaux
 ${} sert a mettre des VARIABLE
 "       " les espaces sont garder là
 `` pour mettre des commandes
