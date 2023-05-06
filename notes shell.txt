@@ -152,7 +152,7 @@ PIPELINES
 Représenté par : | ça sert a connecter l'outpout d'une commande à l'input d'une autre
 command1 | command2
 
-Par defaut ça redirige que la sortie standart, pour l'erreur standart il faut le formulaire qui est un raccourcis pour -> |&2>&1 | ???? pas tout compris là
+Pour lier les 2 sorties (standart et erreur), à la fin de la commande on met : 2>&1
 
 Imagine you quickly want to know the number of entries in a directory, you can use a pipe to redirect the output of the ls command to the wc command with option -l.
 ls / | wc -l
